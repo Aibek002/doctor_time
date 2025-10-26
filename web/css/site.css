@@ -1,4 +1,4 @@
-main > .container {
+main>.container {
     padding: 70px 15px 20px;
 }
 
@@ -8,7 +8,7 @@ main > .container {
     height: 60px;
 }
 
-.footer > .container {
+.footer>.container {
     padding-right: 15px;
     padding-left: 15px;
 }
@@ -18,8 +18,8 @@ main > .container {
     font-style: italic;
 }
 
-/* add sorting icons to gridview sort links */
-a.asc:after, a.desc:after {
+a.asc:after,
+a.desc:after {
     content: '';
     left: 3px;
     display: inline-block;
@@ -35,7 +35,7 @@ a.asc:after {
     border-top-width: 0;
 }
 
-a.desc:after {
+a.desc:after {  
     border-top: solid 7px #212529;
     border-bottom-width: 0;
 }
@@ -59,47 +59,122 @@ a.desc:after {
 }
 
 /* align the logout "link" (button in form) of the navbar */
-.nav li > form > button.logout {
+.nav li>form>button.logout {
     padding-top: 7px;
     color: rgba(255, 255, 255, 0.5);
 }
 
 @media(max-width:767px) {
-    .nav li > form > button.logout {
-        display:block;
+    .nav li>form>button.logout {
+        display: block;
         text-align: left;
         width: 100%;
         padding: 10px 0;
     }
 }
 
-.nav > li > form > button.logout:focus,
-.nav > li > form > button.logout:hover {
+.nav>li>form>button.logout:focus,
+.nav>li>form>button.logout:hover {
     text-decoration: none;
     color: rgba(255, 255, 255, 0.75);
 }
 
-.nav > li > form > button.logout:focus {
+.nav>li>form>button.logout:focus {
     outline: none;
 }
 
 .form-group {
     margin-bottom: 1rem;
 }
-.care_btn {
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    border-radius: 12px;
+
+:root {
+    --color-primary: #1D4ED8;
+    --color-primary-light: #EFF6FF;
+    --color-text: #1F2937;
+    --color-background: #F9FAFB;
+    --color-shadow: rgba(29, 78, 216, 0.1);
 }
+
+body {
+    background-color: var(--color-background);
+    font-family: 'Inter', sans-serif;
+}
+
+.user-greeting {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 30px 20px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.greeting-text {
+    font-size: 1.25rem;
+    color: #6B7280;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.greeting-name {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    line-height: 1.2;
+}
+
+.care_container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.care_btn {
+    width: 100%;
+    padding: 40px 20px;
+    border: 2px solid var(--color-primary-light);
+    border-radius: 12px;
+    background-color: #ffffff;
+    color: var(--color-text);
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s ease;
+    line-height: 1.4;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
 .care_btn:hover {
-    background-color: #45a049;
-    transform: scale(1.05);
+    border-color: var(--color-primary);
+    background-color: var(--color-primary);
+    color: #ffffff;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px var(--color-shadow);
+}
+
+.care_btn:active {
+    transform: translateY(0);
+    box-shadow: 0 5px 10px var(--color-shadow);
+    background-color: #1E40AF;
+}
+
+@media (max-width: 500px) {
+    .care_container {
+        grid-template-columns: 1fr;
+    }
+
+    .user-greeting {
+        padding: 20px 15px;
+    }
+
+    .greeting-name {
+        font-size: 1.5rem;
+    }
 }

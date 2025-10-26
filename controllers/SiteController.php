@@ -105,6 +105,7 @@ class SiteController extends Controller
      *
      * @return Response
      */
+    
     public function actionLogout()
     {
         Yii::$app->user->logout();
@@ -142,6 +143,17 @@ class SiteController extends Controller
             }
         }
         return $this->render('signup');
+    }
+    public function actionMedicalCare($medical_care_id)
+    {
+        $care = MedicalCare::findOne($medical_care_id);
+
+        if (!$care) {
+            throw new \yii\web\NotFoundHttpException('Medical care not found.');
+        }
+        return $this->render('medical-care', [
+            'care' => $care,
+        ]);
     }
 
 }
