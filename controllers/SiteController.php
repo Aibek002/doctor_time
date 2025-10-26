@@ -83,29 +83,29 @@ class SiteController extends Controller
      *
      * @return Response|string
      */
-    public function actionLogin()
-    {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
+    // public function actionLogin()
+    // {
+    //     if (!Yii::$app->user->isGuest) {
+    //         return $this->goHome();
+    //     }
 
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        }
+    //     $model = new LoginForm();
+    //     if ($model->load(Yii::$app->request->post()) && $model->login()) {
+    //         return $this->goBack();
+    //     }
 
-        $model->password = '';
-        return $this->render('login', [
-            'model' => $model,
-        ]);
-    }
+    //     $model->password = '';
+    //     return $this->render('login', [
+    //         'model' => $model,
+    //     ]);
+    // }
 
     /**
      * Logout action.
      *
      * @return Response
      */
-    
+
     public function actionLogout()
     {
         Yii::$app->user->logout();
@@ -144,6 +144,32 @@ class SiteController extends Controller
         }
         return $this->render('signup');
     }
+    public function actionLogin()
+    {
+        $model = new \app\models\Users();
+
+        if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
+            // Ищем пользователя по email
+            $user = \app\models\Users::findByUsername($model->email);
+
+            // Проверяем, есть ли такой пользователь и пароль
+            if ($user && $user->validatePassword($model->password)) {
+                if (Yii::$app->user->login($user, 3600 * 24 * 30)) {
+                    return $this->goHome();
+                } else {
+                    Yii::$app->session->setFlash('error', 'Ошибка при входе. Пожалуйста, попробуйте снова.');
+                } // запоминаем на 30 дней
+
+            } else {
+                Yii::$app->session->setFlash('error', 'Неверный email или пароль');
+            }
+        }
+
+        return $this->render('login', [
+            'model' => $model,
+        ]);
+    }
+
     public function actionMedicalCare($medical_care_id)
     {
         $care = MedicalCare::findOne($medical_care_id);

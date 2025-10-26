@@ -18,12 +18,12 @@ $userName = Yii::$app->user->identity ? Yii::$app->user->identity->fullname : '�
     Выберите интересующую вас услугу:
 </h2>
 
-<div class="care_container">
-    <?php
-    foreach ($care as $c) {
-        echo "<button data-link='" .Url::to(['site/medical-care','medical_care_id'=>$c->id]) . "' class='care_btn'>" . htmlspecialchars($c->care_name) . "</button>";
-    }
-    ?>
+<div class="btn_container">
+    <button data-link="<?= Url::to(['site/patients']) ?>" class='redirect_btn'>Посмотреть пациентов</button>
+    <button data-link="<?= Url::to(['site/appointments']) ?>" class='redirect_btn'>Посмотреть записи</button>
+    <button data-link="<?= Url::to(['site/create-appointments']) ?>" class='redirect_btn'>Создать запись</button>
+
+
 </div>
 
 <div style="height: 50px;"></div>

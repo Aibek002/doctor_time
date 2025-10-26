@@ -19,7 +19,7 @@ use yii\web\IdentityInterface;
  */
 class Users extends ActiveRecord implements IdentityInterface
 {
-
+    public $password; // Для хранения введенного пароля при логине
 
     /**
      * {@inheritdoc}
@@ -35,9 +35,10 @@ class Users extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['fullname', 'password_hash', 'gender', 'phone', 'birthday', 'email'], 'required'],
+            [['fullname', 'password_hash', 'gender', 'phone', 'birthday', 'email'],'required', 'on' => 'signup'],
             [['fullname', 'password_hash', 'gender', 'phone', 'birthday', 'email'], 'string'],
             ['email', 'email'],
+            [['password'], 'safe'],
             ['password_hash', 'string', 'min' => 6],
             ['auth_key', 'string', 'max' => 32],
             // ['password_hash', 'validatePassword'],
