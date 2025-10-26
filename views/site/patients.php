@@ -49,7 +49,7 @@ $pagination = $provider->pagination;
             </div>
             <div class="button-container" style="margin-top: 20px;">
                 <button class="btn btn-primary redirect_btn"
-                    data-link="<?= \yii\helpers\Url::to(['site/update', 'id' => $patient->id]) ?>"> Редактировать</button>
+                    data-link="<?= \yii\helpers\Url::to(['site/create-patient', 'id' => $patient->id]) ?>"> Редактировать</button>
                 <button class="btn btn-danger redirect_btn"
                     data-link="<?= \yii\helpers\Url::to(['site/delete', 'id' => $patient->id]) ?>">Удалить</button>
             </div>

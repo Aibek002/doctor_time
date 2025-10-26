@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\MedicalCare;
+use app\models\Patients;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
@@ -170,6 +171,23 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
+
+    public function actionCreatePatient($id = null)
+    {
+        $model = Patients::findOne($id) ?? new Patients();
+
+        if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+                return $this->redirect(['patients']);
+            } else {
+                Yii::$app->session->setFlash('error', 'Ошибка при создании пациента. Пожалуйста, попробуйте снова.');
+            }
+        }
+        return $this->render('create-patient', [
+            'model' => $model,
+        ]);
+    }
+
     public function actionPatients()
     {
         $provider = new ActiveDataProvider([
@@ -182,6 +200,14 @@ class SiteController extends Controller
         return $this->render('patients', [
             'provider' => $provider,
         ]);
+    }
+    public function actionDelete($id)
+    {
+        $patient = Patients::findOne($id);
+        if ($patient) {
+            $patient->delete();
+        }
+        return $this->redirect(['patients']);
     }
     public function actionMedicalCare($medical_care_id)
     {
