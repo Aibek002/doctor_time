@@ -1,3 +1,16 @@
+:root {
+    --color-primary: #1D4ED8;
+    --color-primary-light: #EFF6FF;
+    --color-text: #1F2937;
+    --color-background: #F9FAFB;
+    --color-shadow: rgba(29, 78, 216, 0.1);
+}
+
+body {
+    background-color: var(--color-background);
+    font-family: 'Inter', sans-serif;
+}
+
 main>.container {
     padding: 70px 15px 20px;
 }
@@ -87,18 +100,6 @@ a.desc:after {
     margin-bottom: 1rem;
 }
 
-:root {
-    --color-primary: #1D4ED8;
-    --color-primary-light: #EFF6FF;
-    --color-text: #1F2937;
-    --color-background: #F9FAFB;
-    --color-shadow: rgba(29, 78, 216, 0.1);
-}
-
-body {
-    background-color: var(--color-background);
-    font-family: 'Inter', sans-serif;
-}
 
 .user-greeting {
     text-align: center;
@@ -126,44 +127,6 @@ body {
     line-height: 1.2;
 }
 
-.btn_container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 15px;
-}
-
-.redirect_btn {
-    width: 100%;
-    padding: 40px 20px;
-    border: 2px solid var(--color-primary-light);
-    border-radius: 12px;
-    background-color: #ffffff;
-    color: var(--color-text);
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    text-align: center;
-    transition: all 0.3s ease;
-    line-height: 1.4;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-}
-
-.redirect_btn:hover {
-    border-color: var(--color-primary);
-    background-color: var(--color-primary);
-    color: #ffffff;
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px var(--color-shadow);
-}
-
-.redirect_btn:active {
-    transform: translateY(0);
-    box-shadow: 0 5px 10px var(--color-shadow);
-    background-color: #1E40AF;
-}
 
 @media (max-width: 500px) {
     .btn_container {
@@ -177,4 +140,48 @@ body {
     .greeting-name {
         font-size: 1.5rem;
     }
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin-top: 40px;
+}
+
+.pagination li {
+    margin: 0 5px;
+}
+
+.pagination li a,
+.pagination li span {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #1D4ED8; /* Deep Blue */
+    border: 1px solid #1D4ED8;
+    background-color: #ffffff;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.pagination li a:hover {
+    background-color: #1D4ED8;
+    color: #ffffff;
+    box-shadow: 0 4px 8px rgba(29, 78, 216, 0.2);
+}
+
+.pagination li.active span {
+    background-color: #1D4ED8;
+    color: #ffffff;
+    border-color: #1D4ED8;
+}
+
+.pagination li.disabled span {
+    color: #9CA3AF; /* Grey for disabled */
+    border-color: #D1D5DB;
+    cursor: not-allowed;
+    background-color: #F3F4F6;
 }

@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\MedicalCare;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
@@ -169,7 +170,19 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
+    public function actionPatients()
+    {
+        $provider = new ActiveDataProvider([
+            'query' => \app\models\Patients::find(),
+            'pagination' => [
+                'pageSize' => 3,
+            ],
+        ]);
 
+        return $this->render('patients', [
+            'provider' => $provider,
+        ]);
+    }
     public function actionMedicalCare($medical_care_id)
     {
         $care = MedicalCare::findOne($medical_care_id);

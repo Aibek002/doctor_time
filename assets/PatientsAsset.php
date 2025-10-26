@@ -2,15 +2,14 @@
 namespace app\assets;
 
 use yii\web\AssetBundle;
-class HomeAsset extends AssetBundle
+class PatientsAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/home.css',
+        'css/patients.css',
     ];
     public $js = [
-        'js/home.js',
         'js/redirect-to-link.js',
     ];
     public $depends = [

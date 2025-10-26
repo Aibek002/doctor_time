@@ -1,0 +1,134 @@
+    .page-title {
+        text-align: center;
+        color: var(--color-text);
+        margin-bottom: 40px;
+        font-weight: 800;
+        /* Bolder title */
+        font-size: 2.5rem;
+        /* Larger title */
+        letter-spacing: -0.5px;
+    }
+
+    /* --- Patient List Container (Grid) --- */
+    .patients-list-container {
+        display: grid;
+        /* Адаптивная сетка: мин. ширина карточки 320px */
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 30px;
+        /* Larger gap */
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    /* --- Patient Card Style (Enhanced Glass-Morphism Look) --- */
+    .patient-card {
+        background-color: rgba(255, 255, 255, 0.95);
+        /* Semi-transparent white for 'frosty' effect */
+        padding: 30px;
+        border-radius: 20px;
+        /* More rounded corners */
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        /* Subtle border for glass effect */
+
+        /* Акцентная рамка по левому краю */
+        position: relative;
+        overflow: hidden;
+
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        /* Deeper initial shadow */
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        /* Smoother transition */
+    }
+
+    /* Блестящая акцентная линия */
+    .patient-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 6px;
+        height: 100%;
+        background: linear-gradient(to bottom, var(--color-primary), var(--color-primary-dark));
+        /* Свечение */
+        box-shadow: 1px 0 15px rgba(29, 78, 216, 0.5);
+        border-radius: 20px 0 0 20px;
+    }
+
+
+    .patient-card:hover {
+        /* Эффект более сильного подъема и поворота */
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(29, 78, 216, 0.25);
+        /* Выраженная синяя тень */
+        cursor: pointer;
+    }
+
+    .patient-card h3 {
+        margin-top: 0;
+        margin-bottom: 15px;
+        font-size: 1.6rem;
+        /* Larger name */
+        color: var(--color-text);
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        /* Разделитель сплошной */
+        border-bottom: 2px solid var(--color-primary-light);
+        padding-bottom: 10px;
+    }
+
+    /* --- Info Line Styling --- */
+    .info-line {
+        display: flex;
+        align-items: center;
+        margin: 12px 0;
+        font-size: 1rem;
+        color: #4B5563;
+        line-height: 1.5;
+    }
+
+    .info-line strong {
+        color: var(--color-text);
+        font-weight: 700;
+        margin-left: 5px;
+    }
+
+    /* СТИЛИЗАЦИЯ ИКОНКИ: используем реальные символы вместо псевдоэлемента '•' */
+    .icon {
+        margin-right: 12px;
+        font-size: 1.2em;
+        line-height: 1;
+        color: var(--color-primary);
+        width: 20px;
+        /* фиксированная ширина для выравнивания */
+        text-align: center;
+    }
+
+
+    .status-text {
+        margin-top: 20px;
+        font-size: 0.95rem;
+        color: #10B981;
+        /* Green for Active */
+        background-color: #ECFDF5;
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-weight: 600;
+        display: inline-block;
+        box-shadow: 0 1px 3px rgba(16, 185, 129, 0.2);
+    }
+
+    /* Адаптивность */
+    @media (max-width: 500px) {
+        .patients-list-container {
+            grid-template-columns: 1fr;
+        }
+
+        .patient-card {
+            border-radius: 12px;
+        }
+
+        .patient-card::before {
+            width: 4px;
+        }
+    }
