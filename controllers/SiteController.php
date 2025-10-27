@@ -266,6 +266,32 @@ class SiteController extends Controller
             'provider' => $provider,
         ]);
     }
+        public function actionAcceptAppointment($id)
+        {
+            $appointment = Appointments::findOne($id);
+            if ($appointment) {
+                $doctor = Yii::$app->user->identity->fullname;
+                if (empty($appointment->date_time)) {
+                    Yii::$app->session->setFlash('error', 'Неверное время записи.');
+                    return $this->redirect(['appointments']);
+                }
+                $newTime = strtotime($appointment->date_time);
+                $conflicts = Appointments::find()
+                    ->where(['doctor_name' => $doctor, 'status' => 2])
+                    ->andWhere(['<>', 'id', $appointment->id])
+                    ->all();
+                foreach ($conflicts as $c) {
+                    $existingTime = strtotime($c->date_time);
+                    if (abs($existingTime - $newTime) < 900) { // 15 минут
+                        Yii::$app->session->setFlash('error', 'У вас уже есть принятая запись в это время. Пожалуйста, выберите другое время.');
+                        return $this->redirect(['appointments']);
+                    }
+                }
+                $appointment->status = 2;
+                $appointment->save();
+            }
+            return $this->redirect(['appointments']);
+        }
     public function actionCancelAppointment($id)
     {
         $appointment = Appointments::findOne($id);

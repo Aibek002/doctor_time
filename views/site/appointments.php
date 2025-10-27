@@ -84,6 +84,12 @@ $specializations = \app\models\MedicalCare::find()->orderBy(['care_name' => SORT
 
             <div class="button-container" style="margin-top: 20px;">
                 <?php if ($appointment->status != 1): ?>
+                <?php if ($appointment->status != 2): ?>
+                    <button class="btn btn-primary redirect_btn"
+                        data-link="<?= Url::to(['site/accept-appointment', 'id' => $appointment->id]) ?>"
+                        onclick="return confirm('Вы уверены, что хотите отменить запись?')">
+                        ✅ Принять
+                    </button><?php endif; ?>
                     <button class="btn btn-danger redirect_btn"
                         data-link="<?= Url::to(['site/cancel-appointment', 'id' => $appointment->id]) ?>"
                         onclick="return confirm('Вы уверены, что хотите отменить запись?')">
@@ -94,9 +100,32 @@ $specializations = \app\models\MedicalCare::find()->orderBy(['care_name' => SORT
 
             <div class="status-text" style="margin-top: 10px;">
                 Статус:
-                <span style="color: <?= $appointment->status ? 'red' : 'green' ?>;">
-                    <?= Html::encode($appointment->status ? 'Неактивна' : 'Активна') ?>
+                <?php
+                $statusText = '';
+                $statusColor = '';
+
+                switch ($appointment->status) {
+                    case 0:
+                        $statusText = 'Активна';
+                        $statusColor = 'green';
+                        break;
+                    case 1:
+                        $statusText = 'Отменена';
+                        $statusColor = 'red';
+                        break;
+                    case 2:
+                        $statusText = 'Принята';
+                        $statusColor = 'blue';
+                        break;
+                    default:
+                        $statusText = 'Неизвестно';
+                        $statusColor = 'gray';
+                }
+                ?>
+                <span style="color: <?= $statusColor ?>;">
+                    <?= Html::encode($statusText) ?>
                 </span>
+
 
             </div>
         </div>
