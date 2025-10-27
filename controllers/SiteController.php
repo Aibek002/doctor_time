@@ -244,7 +244,7 @@ class SiteController extends Controller
     public function actionAppointments()
     {
         $query = Appointments::find()
-            ->where(['doctor_name' => Yii::$app->user->identity->fullname]) // ← условие WHERE
+            ->where(['doctor_name' => Yii::$app->user->identity->fullname])
             ->orderBy(['date_time' => SORT_DESC]);
         $provider = new ActiveDataProvider([
             'query' => $query,
@@ -265,6 +265,15 @@ class SiteController extends Controller
         return $this->render('appointments', [
             'provider' => $provider,
         ]);
+    }
+    public function actionCancelAppointment($id)
+    {
+        $appointment = Appointments::findOne($id);
+        if ($appointment) {
+            $appointment->status = 1;
+            $appointment->save();
+        }
+        return $this->redirect(['appointments']);
     }
     public function actionMedicalCare($medical_care_id)
     {
