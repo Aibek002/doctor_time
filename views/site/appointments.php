@@ -83,18 +83,19 @@ $specializations = \app\models\MedicalCare::find()->orderBy(['care_name' => SORT
             </div>
 
             <div class="button-container" style="margin-top: 20px;">
-            
-                <button class="btn btn-danger redirect_btn"
-                    data-link="<?= Url::to(['site/cancel-appointment', 'id' => $appointment->id]) ?>"
-                    onclick="return confirm('Вы уверены, что хотите удалить запись?')">
-                    🗑 Отменить
-                </button>
+                <?php if ($appointment->status != 1): ?>
+                    <button class="btn btn-danger redirect_btn"
+                        data-link="<?= Url::to(['site/cancel-appointment', 'id' => $appointment->id]) ?>"
+                        onclick="return confirm('Вы уверены, что хотите отменить запись?')">
+                        🗑 Отменить
+                    </button>
+                <?php endif; ?>
             </div>
 
             <div class="status-text" style="margin-top: 10px;">
                 Статус:
-                <span style="color: <?= $appointment->status ? 'green' : 'red' ?>;">
-                    <?= Html::encode($appointment->status ? 'Активна' : 'Неактивна') ?>
+                <span style="color: <?= $appointment->status ? 'red' : 'green' ?>;">
+                    <?= Html::encode($appointment->status ? 'Неактивна' : 'Активна') ?>
                 </span>
 
             </div>
