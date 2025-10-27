@@ -9,6 +9,7 @@ use Yii;
  *
  * @property int $id
  * @property string $doctor_name
+ * @property string $patient_id
  * @property string $specialization
  * @property string|null $date_time
  */
@@ -30,8 +31,9 @@ class Appointments extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['patient_id'], 'default', 'value' => null],
             [['date_time'], 'default', 'value' => null],
-            [['doctor_name', 'specialization'], 'required'],
+            [['doctor_name', 'specialization', 'patient_id', 'date_time'], 'required'],
             [['date_time'], 'safe'],
             [['doctor_name', 'specialization'], 'string', 'max' => 255],
         ];
@@ -45,6 +47,7 @@ class Appointments extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'doctor_name' => 'Doctor Name',
+            'patient_id' => 'Patient ID',
             'specialization' => 'Specialization',
             'date_time' => 'Date Time',
         ];

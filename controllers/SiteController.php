@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Appointments;
 use app\models\MedicalCare;
 use app\models\Patients;
 use app\models\Users;
@@ -139,7 +140,7 @@ class SiteController extends Controller
             $user->auth_key = Yii::$app->security->generateRandomString();
             if ($user->save()) {
                 $user = \app\models\Users::findOne($user->id);
-                Yii::$app->user->login($user, 3600 * 24 * 30); 
+                Yii::$app->user->login($user, 3600 * 24 * 30);
                 return $this->goHome();
             }
         }
@@ -209,7 +210,48 @@ class SiteController extends Controller
 
     public function actionCreateAppointments()
     {
-        return $this->render('create-appointments');
+        $model = new Appointments();
+        if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
+            if (!empty($model->date_time)) {
+                $model->date_time = str_replace('T', ' ', $model->date_time);
+
+            }
+            $patient_records = Appointments::find()->where(['patient_id' => $model->patient_id])->all();
+            foreach ($patient_records as $record) {
+                $record_time = strtotime($record->date_time);
+                $new_time = strtotime($model->date_time);
+                if (abs($record_time - $new_time) < 900) { // 900 секунд = 15 минут
+                    Yii::$app->session->setFlash('error', 'У пациента уже есть запись в это время. Пожалуйста, выберите другое время.');
+                    return $this->render('create-appointments', [
+                        'model' => $model,
+                    ]);
+                }
+            }   
+            if (!empty($patient_records)) {
+                if ($model->save()) {
+                    return $this->redirect(['appointments']);
+                } else {
+                    Yii::$app->session->setFlash('error', 'Ошибка при создании записи. Пожалуйста, попробуйте снова.');
+                }
+            }
+        }
+        return $this->render('create-appointments', [
+            'model' => $model,
+        ]);
+
+    }
+    public function actionAppointments()
+    {
+        $provider = new ActiveDataProvider([
+            'query' => \app\models\Appointments::find(),
+            'pagination' => [
+                'pageSize' => 5,
+            ],
+        ]);
+
+        return $this->render('appointments', [
+            'provider' => $provider,
+        ]);
     }
     public function actionMedicalCare($medical_care_id)
     {
