@@ -32,7 +32,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 <header id="header">
     <?php
     NavBar::begin([
-        'brandLabel' => Yii::$app->name,
+        'brandLabel' => 'DoctorTime',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => ['class' => 'navbar-expand-md navbar-dark bg-dark fixed-top']
     ]);
@@ -42,6 +42,8 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
             ['label' => 'Главная', 'url' => ['/site/index']],
             ['label' => 'Создать пациента', 'url' => ['/site/create-patient']],
             ['label' => 'Пациенты', 'url' => ['/site/patients']],
+            ['label' => 'Создать Запись', 'url' => ['/site/create-appointments']],
+
             ['label' => 'Записи', 'url' => ['/site/appointments']],
 
             Yii::$app->user->isGuest

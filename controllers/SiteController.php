@@ -212,6 +212,7 @@ class SiteController extends Controller
     {
         $model = new Appointments();
         if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
+            $model->doctor_name = Yii::$app->user->identity->fullname;
             if (!empty($model->date_time)) {
                 $model->date_time = str_replace('T', ' ', $model->date_time);
 
