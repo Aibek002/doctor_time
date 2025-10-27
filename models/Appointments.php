@@ -52,5 +52,10 @@ class Appointments extends \yii\db\ActiveRecord
             'date_time' => 'Date Time',
         ];
     }
+    public function getPatient()
+    {
+        return $this->hasOne(Patients::class, ['id' => 'patient_id']);
+    }
+
 
 }

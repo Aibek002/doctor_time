@@ -226,7 +226,7 @@ class SiteController extends Controller
                         'model' => $model,
                     ]);
                 }
-            }   
+            }
             if (!empty($patient_records)) {
                 if ($model->save()) {
                     return $this->redirect(['appointments']);
@@ -242,10 +242,22 @@ class SiteController extends Controller
     }
     public function actionAppointments()
     {
+        $query = Appointments::find()
+            ->where(['doctor_name' => Yii::$app->user->identity->fullname]) // ← условие WHERE
+            ->orderBy(['date_time' => SORT_DESC]);
         $provider = new ActiveDataProvider([
-            'query' => \app\models\Appointments::find(),
+            'query' => $query,
             'pagination' => [
                 'pageSize' => 5,
+            ],
+
+            'sort' => [
+                'defaultOrder' => ['date_time' => SORT_DESC], // сортировка по дате (от новых к старым)
+                'attributes' => [
+                    'date_time',
+                    'doctor_name',
+                    'specialization',
+                ],
             ],
         ]);
 
