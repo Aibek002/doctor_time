@@ -9,12 +9,47 @@ $appointments = $provider->getModels();
 $pagination = $provider->pagination;
 ?>
 
+
 <div class="page-title">
     <span style="color: var(--color-primary);">Doctor</span>
     <span style="color: var(--color-text);">Time</span>
     Записи на приём
 </div>
+<?php
+$doctors = \app\models\Users::find()->orderBy(['fullname' => SORT_ASC])->all();
+$patients = \app\models\Patients::find()->orderBy(['last_name' => SORT_ASC, 'first_name' => SORT_ASC])->all();
+$specializations = \app\models\MedicalCare::find()->orderBy(['care_name' => SORT_ASC])->all();
 
+?>
+
+<div class="filter-bar" data-url="<?= Url::to(['ajax/filter']) ?>"
+    style="margin:20px 0;display:flex;gap:10px;align-items:center;">
+    <label for="patient-filter" style="font-weight:600;white-space:nowrap;">Пациент:</label>
+    <select id="patient-filter" class="form-control" style="min-width:200px;">
+        <option value="">Все пациенты</option>
+        <?php foreach ($patients as $p): ?>
+            <option value="<?= Html::encode($p->id) ?>"><?= Html::encode($p->first_name . ' ' . $p->last_name) ?></option>
+        <?php endforeach; ?>
+    </select>
+
+    <label for="doctor-filter" style="font-weight:600;white-space:nowrap;margin-left:10px;">Врач:</label>
+    <select id="doctor-filter" class="form-control" style="min-width:200px;">
+        <option value="">Все врачи</option>
+        <?php foreach ($doctors as $d): ?>
+            <option value="<?= Html::encode($d->fullname) ?>"><?= Html::encode($d->fullname) ?></option>
+        <?php endforeach; ?>
+    </select>
+
+    <label for="specialization-filter" style="font-weight:600;white-space:nowrap;margin-left:10px;">Спец.:</label>
+    <select id="specialization-filter" class="form-control" style="min-width:200px;">
+        <option value="">Все специализации</option>
+        <?php foreach ($specializations as $s): ?>
+            <option value="<?= Html::encode($s->care_name) ?>"><?= Html::encode($s->care_name) ?></option>
+        <?php endforeach; ?>
+    </select>
+
+    <div id="filter-loader" style="display:none;margin-left:10px;">Загрузка...</div>
+</div>
 <div class="appointments-list-container">
     <?php
     if (empty($appointments)) {
@@ -31,19 +66,19 @@ $pagination = $provider->pagination;
             </h3>
 
             <div class="info-line">
-                🧑‍🤝‍🧑 Пациент: 
+                🧑‍🤝‍🧑 Пациент:
                 <strong>
                     <?= Html::encode($appointment->patient->first_name . ' ' . $appointment->patient->last_name) ?>
                 </strong>
             </div>
 
             <div class="info-line">
-                🩺 Специализация: 
+                🩺 Специализация:
                 <strong><?= Html::encode($appointment->specialization) ?></strong>
             </div>
 
             <div class="info-line">
-                ⏰ Дата и время приёма: 
+                ⏰ Дата и время приёма:
                 <strong><?= Yii::$app->formatter->asDatetime($appointment->date_time, 'php:d.m.Y H:i') ?></strong>
             </div>
 
@@ -73,12 +108,3 @@ $pagination = $provider->pagination;
         'maxButtonCount' => 5,
     ]) ?>
 </div>
-
-<?php
-$js = <<<JS
-$(".redirect_btn").on("click", function() {
-    window.location.href = $(this).data("link");
-});
-JS;
-$this->registerJs($js);
-?>

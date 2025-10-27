@@ -11,6 +11,7 @@ class AppointmentAsset extends AssetBundle
     ];
     public $js = [
         'js/redirect-to-link.js',
+        'js/appointments-ajax.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
